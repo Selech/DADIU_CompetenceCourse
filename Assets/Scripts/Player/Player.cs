@@ -12,8 +12,8 @@ public class Player : MonoBehaviour {
 
 	// Update is called once per frame
 	void Update () {
-        transform.position = trackPosition.Move(speed, 0f);
-
+        trackPosition.Move(speed);
+        transform.position = trackPosition.Position;
 	}
 
     public void SetTrackPosition(TrackPosition tp)

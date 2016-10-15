@@ -29,8 +29,15 @@ public class Track : MonoBehaviour {
 
     }
 
+    private void GenerateVertices()
+    {
+
+    }
+
     private void Connect(Vector3 p0, Vector3 p1)
     {
 
     }
+
+
 }

@@ -25,7 +25,7 @@ public class TrackPosition
     /// <param name="distance">Distance moved along the track</param>
     /// <param name="rotateDegrees">Degrees rotated around the track</param>
     /// <returns>The new player position in world space</returns>
-    public Vector3 Move(float distance, float rotateDegrees)
+    public void Move(float distance)
     {
         // make up for the distance along the line
         distance += d;
@@ -42,8 +42,11 @@ public class TrackPosition
         Vector3 forward = lineSegment.normalized;
         Rotation = Quaternion.LookRotation(forward, Vector3.up);
         Position = points[index] + forward * d;
+    }
 
-        return Position;
+    public void Rotate(float degrees)
+    {
+
     }
 
     // returns a vector from point i and to the next point
