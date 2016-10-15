@@ -5,18 +5,33 @@ public class TrackPosition
 {
     public int Round { get; private set; }
     public float RoundProgress { get; private set; }
-    public Quaternion Rotation { get; private set; }
-    //public Vector3 Up { get; private set; }
-    public Vector3 Position { get; private set; }
+    public Vector3 Forward
+    {
+        get { return GetLineSegment().normalized; }
+    }
+    public Vector3 Up {
+        get
+        {
+            var right = Vector3.Cross(Vector3.up, Forward);
+            var up = Vector3.Cross(Forward, right);
+            return Quaternion.AngleAxis(angle, Forward) * up.normalized;
+        }
+    }
+    public Vector3 Position {
+        get
+        {
+            return points[index] + Forward * d + Up * Track.radius;
+        }
+    }
 
     private Vector3[] points;
-    private int index;
+    private float angle;
+    private int index; // index of the current line segment
     private float d; // the distance traveled on the current line segment
 
     public TrackPosition(Vector3[] points)
     {
         this.points = points;
-        Rotation = Quaternion.LookRotation(points[0].normalized, Vector3.up);
     }
 
     /// <summary>
@@ -39,14 +54,11 @@ public class TrackPosition
             lineSegment = GetLineSegment();
         }
         d = distance;
-        Vector3 forward = lineSegment.normalized;
-        Rotation = Quaternion.LookRotation(forward, Vector3.up);
-        Position = points[index] + forward * d;
     }
 
     public void Rotate(float degrees)
     {
-
+        angle += degrees;
     }
 
     // returns a vector from point i and to the next point

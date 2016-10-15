@@ -7,7 +7,7 @@ public class Player : MonoBehaviour {
 	
     void Reset()
     {
-        speed = 0.2f;
+        speed = 0.4f;
     }
 
 	// Update is called once per frame
