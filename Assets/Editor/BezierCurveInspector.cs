@@ -73,7 +73,7 @@ public class BezierCurveInspector : Editor
             DrawDragableHandleGizmo(worldPos, delegate(Vector3 value)
             {
                 handle.position = value;
-                curve.CalculatePoints();
+                curve.GenerateCurvePoints();
             });
         }
 
@@ -100,7 +100,7 @@ public class BezierCurveInspector : Editor
             DrawDragableHandleGizmo(endPoint, delegate (Vector3 value)
             {
                 handle.tangent = value - handle.position;
-                curve.CalculatePoints();
+                curve.GenerateCurvePoints();
             });
         }
         Handles.color = handleTangentColor;
@@ -119,7 +119,7 @@ public class BezierCurveInspector : Editor
             DrawDragableHandleGizmo(endPoint, delegate (Vector3 value)
             {
                 handle.tangent = -(value - handle.position);
-                curve.CalculatePoints();
+                curve.GenerateCurvePoints();
             });
         }
         Handles.DrawLine(handlePos, endPoint);
