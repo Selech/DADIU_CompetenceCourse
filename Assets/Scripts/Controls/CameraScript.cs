@@ -6,6 +6,7 @@ public class CameraScript : MonoBehaviour {
 public Transform parent;
 	public Transform target;
 	public Vector3 offset;
+	public float slerpAmount = 5f;
 
 	// Use this for initialization
 	void Start () {
@@ -22,6 +23,6 @@ public Transform parent;
 	// Update is called once per frame
 	void Update () {
 		parent.transform.position = target.position;
-		parent.transform.rotation = Quaternion.Slerp(parent.transform.rotation, target.rotation, Time.deltaTime * 2f);// Quaternion.Euler(0,0,target.rotation.eulerAngles.z);
+		parent.transform.rotation = Quaternion.Slerp(parent.transform.rotation, target.rotation, Time.deltaTime * slerpAmount);// Quaternion.Euler(0,0,target.rotation.eulerAngles.z);
 	}
 }

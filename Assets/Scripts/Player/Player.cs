@@ -3,40 +3,31 @@ using System.Collections;
 
 public class Player : MonoBehaviour {
     public float speed;
-    private Vector3 position = Vector3.zero; 
-	public float forwardSpeed;
-	public float rotatationSpeed;
-	public float correction;
-
-	private float rotatation = 0.0f;
+	public float rotateSpeed;
     private TrackPosition trackPosition;
 
 	public GameObject parent;
 	
     void Reset()
     {
-        speed = 0.4f;
+        speed = 0.3f;
+        rotateSpeed = 2.5f;
     }
 
 	// Update is called once per frame
 	void Update () {
-		if(Input.GetKey(KeyCode.LeftArrow)){
-			trackPosition.Rotate(rotatationSpeed);
-		}
-		else if(Input.GetKey(KeyCode.RightArrow)){
-			trackPosition.Rotate(-rotatationSpeed);
-		}
+		trackPosition.Move(0.2f);
 
-        trackPosition.Move(speed); 
+        // move player
+        float dist = Input.GetAxis("Vertical") * speed;
+        trackPosition.Move(dist);
+        // rotate player
+        var degrees = -Input.GetAxis("Horizontal") * rotateSpeed;
+        trackPosition.Rotate(degrees);
 
 		transform.position = trackPosition.Position;
-        transform.rotation = Quaternion.RotateTowards(transform.rotation, Quaternion.LookRotation(trackPosition.Forward, trackPosition.Up), 4);
+        transform.rotation = Quaternion.LookRotation(trackPosition.Forward, trackPosition.Up);// Quaternion.RotateTowards(transform.rotation, Quaternion.LookRotation(trackPosition.Forward, trackPosition.Up), 4);
 
-		
-		var targetDirection = Quaternion.Euler(Quaternion.LookRotation(trackPosition.Forward).eulerAngles + Quaternion.AngleAxis(rotatation,trackPosition.Forward).eulerAngles);
-
-		//parent.transform.rotation = Quaternion.Slerp(transform.rotation, targetDirection,  0.05f);
-		//this.transform.LookAt(trackPosition.Position + trackPosition.Forward);
 	}
 
     public void SetTrackPosition(TrackPosition tp)
