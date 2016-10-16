@@ -20,7 +20,7 @@ public class TrackPosition
     public Vector3 Position {
         get
         {
-            return points[index] + Forward * d; // + Up * Track.radius;
+            return points[index] + Forward * d + Up * Track.radius;
         }
     }
 
