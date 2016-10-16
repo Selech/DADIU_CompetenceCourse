@@ -22,6 +22,6 @@ public Transform parent;
 	// Update is called once per frame
 	void Update () {
 		parent.transform.position = target.position;
-		parent.transform.rotation = Quaternion.Euler(0,0,target.rotation.eulerAngles.z);
+		parent.transform.rotation = target.rotation;// Quaternion.Euler(0,0,target.rotation.eulerAngles.z);
 	}
 }
