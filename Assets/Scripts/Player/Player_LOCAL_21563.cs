@@ -23,18 +23,15 @@ public class Player : MonoBehaviour {
         trackPosition.Move(speed); 
         //transform.position = trackPosition.Position;
 
-        //SetRotation();
-		//SetPosition();
-
-		transform.position = trackPosition.Position;
-        transform.rotation = Quaternion.RotateTowards(transform.rotation, Quaternion.LookRotation(trackPosition.Forward, trackPosition.Up), 4);
+        SetRotation();
+		SetPosition();
 
 		
 		var targetDirection = Quaternion.Euler(Quaternion.LookRotation(trackPosition.Forward).eulerAngles + Quaternion.AngleAxis(rotatation,trackPosition.Forward).eulerAngles);
 		print (trackPosition.Forward);
 		print (targetDirection.eulerAngles);
 
-		//parent.transform.rotation = Quaternion.Slerp(transform.rotation, targetDirection,  0.05f);
+		parent.transform.rotation = Quaternion.Slerp(transform.rotation, targetDirection,  0.05f);
 		//this.transform.LookAt(trackPosition.Position + trackPosition.Forward);
 	}
 
@@ -81,41 +78,4 @@ public class Player : MonoBehaviour {
 		this.transform.position = finalPosition;
 	}
 
-}
-
-
-
-public class Player2 : MonoBehaviour
-{
-    public float speed;
-    public float rotateSpeed;
-    private TrackPosition trackPosition;
-
-    void Reset()
-    {
-        speed = 0.3f;
-        rotateSpeed = 2.5f;
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        // move player
-        float dist = Input.GetAxis("Vertical") * speed;
-        trackPosition.Move(dist);
-        // rotate player
-        var degrees = -Input.GetAxis("Horizontal") * rotateSpeed;
-        trackPosition.Rotate(degrees);
-
-        // update position and rotation
-        transform.position = trackPosition.Position;
-        transform.rotation = Quaternion.RotateTowards(transform.rotation, Quaternion.LookRotation(trackPosition.Forward, trackPosition.Up), 4);
-    }
-
-    public void SetTrackPosition(TrackPosition tp)
-    {
-        trackPosition = tp;
-        transform.position = trackPosition.Position;
-        transform.forward = trackPosition.Forward;
-    }
 }

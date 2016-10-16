@@ -15,7 +15,7 @@ public class BezierCurve : MonoBehaviour
     public bool hideDefaultHandle;
     public BezierHandle[] handles;
     private Vector3[] points;
-    private const int linesPerSegment = 25;
+    private const int linesPerSegment = 50;
 
     public void Reset()
     {
