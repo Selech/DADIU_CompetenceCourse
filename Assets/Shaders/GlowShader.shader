@@ -4,8 +4,8 @@
 		_MainTex ("Albedo (RGB)", 2D) = "white" {}
 		_Glossiness ("Smoothness", Range(0,1)) = 0.5
 		_Metallic ("Metallic", Range(0,1)) = 0.0
-		_RimPower ("Rim Power", Range(0,10.0)) = 1.0
-		_RimColor ("Rim Color", Color) = (1,1,1,1)
+		_GlowPower ("Glow Power", Range(0,10.0)) = 1.0
+		_GlowColor ("Glow Color", Color) = (1,1,1,1)
 	}
 	SubShader {
 		Tags { "RenderType"="Opaque" }
@@ -28,8 +28,8 @@
 		half _Glossiness;
 		half _Metallic;
 		fixed4 _Color;
-		float4 _RimColor;
-		float _RimPower;
+		float4 _GlowColor;
+		float _GlowPower;
 
 		void surf (Input IN, inout SurfaceOutputStandard o) {
 			// Albedo comes from a texture tinted by color
@@ -41,7 +41,7 @@
 			o.Alpha = c.a;
 
 			half rim = 1.0 - saturate(dot(normalize(IN.viewDir), o.Normal));
-			o.Emission = _RimColor.rgb * pow(rim, _RimPower);
+			o.Emission = _GlowColor.rgb * pow(rim, _GlowPower);
 
 		}
 		ENDCG
