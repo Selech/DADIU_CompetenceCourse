@@ -42,6 +42,9 @@ public class TrackPosition
     /// <returns>The new player position in world space</returns>
     public void Move(float distance)
     {
+        if (distance <= 0)
+            return;
+
         // make up for the distance along the line
         distance += d;
         Vector3 lineSegment = GetLineSegment();
