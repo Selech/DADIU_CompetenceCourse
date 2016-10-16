@@ -10,7 +10,8 @@ public class TrackPosition
         get {
             var d0 = GetLineSegment(index).normalized;
             var d1 = GetLineSegment(index + 1).normalized;
-            return Vector3.Lerp(d0, d1, 1-d);
+            var t = d / GetLineSegment(index).magnitude;
+            return Vector3.Lerp(d0, d1, t);
         }
     }
     public Vector3 Up {
