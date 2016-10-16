@@ -19,20 +19,21 @@ public class Player : MonoBehaviour {
     }
 
 	// Update is called once per frame
-	void FixedUpdate () {
-        trackPosition.Move(speed); 
-        //transform.position = trackPosition.Position;
+	void Update () {
+		if(Input.GetKey(KeyCode.LeftArrow)){
+			trackPosition.Rotate(rotatationSpeed);
+		}
+		else if(Input.GetKey(KeyCode.RightArrow)){
+			trackPosition.Rotate(-rotatationSpeed);
+		}
 
-        //SetRotation();
-		//SetPosition();
+        trackPosition.Move(speed); 
 
 		transform.position = trackPosition.Position;
         transform.rotation = Quaternion.RotateTowards(transform.rotation, Quaternion.LookRotation(trackPosition.Forward, trackPosition.Up), 4);
 
 		
 		var targetDirection = Quaternion.Euler(Quaternion.LookRotation(trackPosition.Forward).eulerAngles + Quaternion.AngleAxis(rotatation,trackPosition.Forward).eulerAngles);
-		print (trackPosition.Forward);
-		print (targetDirection.eulerAngles);
 
 		//parent.transform.rotation = Quaternion.Slerp(transform.rotation, targetDirection,  0.05f);
 		//this.transform.LookAt(trackPosition.Position + trackPosition.Forward);
@@ -42,54 +43,33 @@ public class Player : MonoBehaviour {
     {
         trackPosition = tp;
         transform.position = trackPosition.Position;
+        transform.forward = trackPosition.Forward;
     }
-
-	private void SetRotation(){
-		var tempRotation = rotatation;
-		// Get inputs
-		if(Input.GetKey(KeyCode.LeftArrow)){
-			 tempRotation += rotatationSpeed;
-		}
-		else if(Input.GetKey(KeyCode.RightArrow)){
-			tempRotation += -rotatationSpeed;
-		}
-		
-		// Calculate the rotation
-		if(tempRotation >= 0.0f && tempRotation <= 360.0f){ 
-			rotatation = tempRotation;
-		}
-		else if(tempRotation < 0){
-			rotatation = 360 - tempRotation;
-		}
-		else if(tempRotation > 360){
-			rotatation =  tempRotation - 360;
-		}
-
-		
-	}
-
-	private void SetPosition(){
-		position = trackPosition.Position - new Vector3(0,0.5f,0);
-		var r = 0.75f;
-
-		var x = r * Mathf.Cos((rotatation+correction) * (Mathf.PI / 180)) ;
-		var y = r * Mathf.Sin((rotatation+correction) * (Mathf.PI / 180)) ;
-		//var z = r* Mathf.Cos((rotatation+correction) * (Mathf.PI / 180)) ;
-
-		var finalPosition = new Vector3(position.x+x,position.y+y,position.z);
-
-		this.transform.position = finalPosition;
-	}
 
 }
 
 
 
+
+
+
+
+////////////////////////////////////////////////
+// Warning, old code below!
+////////////////////////////////////////////////
+
 public class Player2 : MonoBehaviour
 {
+    private Vector3 position = Vector3.zero; 
+	public float forwardSpeed;
+	public float rotatationSpeed;
+	public float correction;
+
+	private float rotatation = 0.0f;
+    private TrackPosition trackPosition;
+
     public float speed;
     public float rotateSpeed;
-    private TrackPosition trackPosition;
 
     void Reset()
     {
@@ -118,4 +98,46 @@ public class Player2 : MonoBehaviour
         transform.position = trackPosition.Position;
         transform.forward = trackPosition.Forward;
     }
+
+	
+
+	private void SetRotation(){
+		var tempRotation = rotatation;
+		// Get inputs
+		if(Input.GetKey(KeyCode.LeftArrow)){
+			trackPosition.Rotate(rotatationSpeed);
+
+			 tempRotation += rotatationSpeed;
+		}
+		else if(Input.GetKey(KeyCode.RightArrow)){
+			tempRotation += -rotatationSpeed;
+			trackPosition.Rotate(-rotatationSpeed);
+		}
+		
+		// Calculate the rotation
+		if(tempRotation >= 0.0f && tempRotation <= 360.0f){ 
+			rotatation = tempRotation;
+		}
+		else if(tempRotation < 0){
+			rotatation = 360 - tempRotation;
+		}
+		else if(tempRotation > 360){
+			rotatation =  tempRotation - 360;
+		}
+
+		
+	}
+
+	private void SetPosition(){
+		position = trackPosition.Position - new Vector3(0,0.5f,0);
+		var r = 0.75f;
+
+		var x = r * Mathf.Cos((rotatation+correction) * (Mathf.PI / 180)) ;
+		var y = r * Mathf.Sin((rotatation+correction) * (Mathf.PI / 180)) ;
+		//var z = r* Mathf.Cos((rotatation+correction) * (Mathf.PI / 180)) ;
+
+		var finalPosition = new Vector3(position.x+x,position.y+y,position.z);
+
+		this.transform.position = finalPosition;
+	}
 }
