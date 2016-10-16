@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 [RequireComponent(typeof(BezierCurve))]
 public class Track : MonoBehaviour {
-    public const float radius = 0.25f;
+    public const float radius = 0.5f;
     private const int verticesPerPoint = 10;
     
 
