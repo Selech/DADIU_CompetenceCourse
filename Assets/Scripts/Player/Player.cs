@@ -16,7 +16,6 @@ public class Player : MonoBehaviour {
 
 	// Update is called once per frame
 	void Update () {
-		trackPosition.Move(0.2f);
 
         // move player
         float dist = Input.GetAxis("Vertical") * speed;
