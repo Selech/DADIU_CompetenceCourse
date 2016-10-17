@@ -6,6 +6,8 @@ public class Player : MonoBehaviour {
 	public float rotateSpeed;
     private TrackPosition trackPosition;
 
+    public Material mat;
+
 	public GameObject parent;
 	
     void Reset()
@@ -20,6 +22,9 @@ public class Player : MonoBehaviour {
         // move player
         float dist = Input.GetAxis("Vertical") * speed;
         trackPosition.Move(dist);
+
+        mat.SetFloat("_GlowPower", 5-(dist*15));
+
         // rotate player
         var degrees = -Input.GetAxis("Horizontal") * rotateSpeed;
         trackPosition.Rotate(degrees);
