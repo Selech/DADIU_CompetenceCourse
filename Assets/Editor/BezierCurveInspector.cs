@@ -13,7 +13,8 @@ public class BezierCurveInspector : Editor
 
     // style settings
     private const float handleSize = 0.04f;
-    private Color curveColor = Color.green;
+    private Color curveColor1 = Color.green;
+    private Color curveColor2 = Color.red;
     private Color handlePointColor = Color.white;
     private Color handleTangentColor = new Color(0f, 0.2f, 0f);
 
@@ -162,12 +163,13 @@ public class BezierCurveInspector : Editor
     // draws the curve
     private void DrawCurve()
     {
-        Handles.color = curveColor;
+        
         Vector3[] points = curve.GetPoints();
         Vector3 p0 = curveTransform.TransformPoint(points[0]);
         Vector3 p1;
         for (int i = 1; i < points.Length; i++)
         {
+            Handles.color = i % 2 == 0 ? curveColor1 : curveColor2;
             p1 = curveTransform.TransformPoint(points[i]);
             Handles.DrawLine(p0, p1);
             p0 = p1;

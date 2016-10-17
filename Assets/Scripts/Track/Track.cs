@@ -5,10 +5,8 @@ using System.Collections.Generic;
 
 [RequireComponent(typeof(BezierCurve))]
 public class Track : MonoBehaviour {
-    public const float radius = 0.5f;
+    public const float radius = 0.65f;
     private const int verticesPerPoint = 10;
-    
-
     private Vector3[] points;
 
 
@@ -58,9 +56,9 @@ public class Track : MonoBehaviour {
     private int[] GenerateTriangles()
     {
         List<int> triangles = new List<int>();
-        for(int i = 0; i < points.Length-1; i++)
+        for(int i = 0; i < points.Length; i++)
         {
-            Connect(i * verticesPerPoint, (i+1) * verticesPerPoint, triangles);
+            Connect(i * verticesPerPoint, ((i+1) % points.Length) * verticesPerPoint, triangles);
         }
 
         return triangles.ToArray();

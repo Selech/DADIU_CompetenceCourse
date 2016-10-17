@@ -3,26 +3,27 @@ using System.Collections;
 
 public class CameraScript : MonoBehaviour {
 
-public Transform parent;
 	public Transform target;
 	public Vector3 offset;
-	public float slerpAmount = 5f;
+	public float slerpAmount;
 
 	// Use this for initialization
-	void Start () {
-		this.transform.localPosition = target.position - new Vector3(0, offset.y * target.up.y, offset.z * target.forward.z) ;
-		this.transform.LookAt(target.position);
+	void Reset () {
+        target = GameObject.Find("Player").transform;
+        slerpAmount = 10f;
+        offset = new Vector3(0, -3, 10);
 	}
 
-	void OnValidate()
+	void Start()
 	{
-		Start();
-		Update();
+        transform.parent.position = target.position;
+        transform.localPosition = transform.parent.up * offset.y + transform.parent.forward * offset.z;
+        transform.rotation = target.rotation;
 	}
 	
 	// Update is called once per frame
 	void Update () {
-		parent.transform.position = target.position;
-		parent.transform.rotation = Quaternion.Slerp(parent.transform.rotation, target.rotation, Time.deltaTime * slerpAmount);// Quaternion.Euler(0,0,target.rotation.eulerAngles.z);
+		transform.position = target.position - target.forward * offset.z - target.up * offset.y;
+        transform.rotation = Quaternion.Slerp(transform.rotation, target.rotation, Time.deltaTime * slerpAmount);
 	}
 }
