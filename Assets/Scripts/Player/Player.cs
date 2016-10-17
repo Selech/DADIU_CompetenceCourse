@@ -63,7 +63,7 @@ public class Player2 : MonoBehaviour
 
     void Reset()
     {
-        speed = 0.3f;
+        speed = 0.45f;
         rotateSpeed = 2.5f;
     }
 
@@ -79,7 +79,7 @@ public class Player2 : MonoBehaviour
 
         // update position and rotation
         transform.position = trackPosition.Position;
-        transform.rotation = Quaternion.RotateTowards(transform.rotation, Quaternion.LookRotation(trackPosition.Forward, trackPosition.Up), 4);
+        transform.rotation = Quaternion.LookRotation(trackPosition.Forward, trackPosition.Up);
     }
 
     public void SetTrackPosition(TrackPosition tp)

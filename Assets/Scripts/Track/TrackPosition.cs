@@ -7,7 +7,12 @@ public class TrackPosition
     public float RoundProgress { get; private set; }
     public Vector3 Forward
     {
-        get { return GetLineSegment().normalized; }
+        get {
+            var d0 = GetLineSegment(index).normalized;
+            var d1 = GetLineSegment(index + 1).normalized;
+            var t = d / GetLineSegment(index).magnitude;
+            return Vector3.Lerp(d0, d1, t);
+        }
     }
     public Vector3 Up {
         get
@@ -47,14 +52,14 @@ public class TrackPosition
 
         // make up for the distance along the line
         distance += d;
-        Vector3 lineSegment = GetLineSegment();
+        Vector3 lineSegment = GetLineSegment(index);
 
         // find the correct line segment 
         while (distance - lineSegment.magnitude >= 0)
         {
             distance -= lineSegment.magnitude;
             NextPoint();
-            lineSegment = GetLineSegment();
+            lineSegment = GetLineSegment(index);
         }
         d = distance;
     }
@@ -65,12 +70,9 @@ public class TrackPosition
     }
 
     // returns a vector from point i and to the next point
-    private Vector3 GetLineSegment()
+    private Vector3 GetLineSegment(int i)
     {
-        if (index == points.Length - 1)
-            return points[0] - points[index];
-        else
-            return points[index + 1] - points[index];
+        return points[(i + 1) % points.Length] - points[i % points.Length];
     }
 
     private void NextPoint()
