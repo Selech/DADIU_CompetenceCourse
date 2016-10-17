@@ -34,11 +34,10 @@
 		float _Bool = 1.0;
 
 		void vert(inout appdata_full v) {
-
-			if(v.vertex.y > 0.15){
+			/*if(v.vertex.y > 0.15){
 				float amount = (sin(_Time.y) + 1) / 3;
 				v.vertex.xyz += v.normal * amount;
-			}
+			}*/
 		}
 
 		void surf (Input IN, inout SurfaceOutputStandard o) {
