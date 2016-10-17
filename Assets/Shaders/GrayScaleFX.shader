@@ -3,6 +3,7 @@
 	Properties
 	{
 		_MainTex ("Texture", 2D) = "white" {}
+		_Amount("Amount",  Range(0.0,1.0)) = 0.0
 	}
 	SubShader
 	{
@@ -38,16 +39,15 @@
 			}
 			
 			sampler2D _MainTex;
+			float _Amount;
 
 			fixed4 frag (v2f i) : SV_Target
 			{
 				fixed4 col = tex2D(_MainTex, i.uv);
-				// just invert the colors
+				
 				float grayCol = (col.r + col.b + col.g) / 3.0;
 
-				float amount = (sin(_Time.y) + 1.5) / 3;
-
-				fixed4 endCol = (col*(1- amount) + (grayCol*amount));
+				fixed4 endCol = (col*(1- _Amount) + (grayCol*_Amount));
 
 				return endCol;
 			}

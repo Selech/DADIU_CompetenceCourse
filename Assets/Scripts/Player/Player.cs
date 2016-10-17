@@ -6,6 +6,7 @@ public class Player : MonoBehaviour {
 	public float rotateSpeed;
     private float speed;
     private TrackPosition trackPosition;
+    public Material mat;
 	
     void Reset()
     {
@@ -19,6 +20,9 @@ public class Player : MonoBehaviour {
         // move player
         float dist = Input.GetAxis("Vertical") * maxSpeed;
         trackPosition.Move(dist);
+        // set glow based on speed
+        mat.SetFloat("_GlowPower", 5 - (dist * 15));
+
         // rotate player
         var degrees = -Input.GetAxis("Horizontal") * rotateSpeed;
         trackPosition.Rotate(degrees);
