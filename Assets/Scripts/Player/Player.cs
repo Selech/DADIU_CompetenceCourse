@@ -14,6 +14,11 @@ public class Player : MonoBehaviour {
         rotateSpeed = 2f;
     }
 
+    void CalculateMovement()
+    {
+
+    }
+
 	// Update is called once per frame
 	void Update () {
 
@@ -31,9 +36,16 @@ public class Player : MonoBehaviour {
         transform.rotation = Quaternion.LookRotation(trackPosition.Forward, trackPosition.Up);
 	}
 
-    void OnCollisionEnter(Collision other)
+    // called from the PlayerCollision
+    public void OnCollisionEnter()
     {
-        print("Collide");
+        maxSpeed = 0;
+    }
+
+    // called from the PlayerCollision
+    public void OnCollisionExit()
+    {
+        maxSpeed = 1f;
     }
 
     public void SetTrackPosition(TrackPosition tp)
