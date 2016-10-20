@@ -12,7 +12,10 @@ public class PlayerCollision : MonoBehaviour {
 	
 	void OnCollisionEnter(Collision coll)
     {
+        var x = transform.InverseTransformPoint(coll.contacts[0].point);
+        print(x);
         player.OnCollisionEnter();
+
     }
     
     void OnCollisionExit(Collision coll)

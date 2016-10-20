@@ -2,31 +2,46 @@
 using System.Collections;
 
 public class Player : MonoBehaviour {
+    public float acceleration;
+    public float breaking;
     public float maxSpeed;
 	public float rotateSpeed;
-    private float speed;
+    private float velocity;
+    private bool isStuck;
     private TrackPosition trackPosition;
     public Material mat;
 	
     void Reset()
     {
-        maxSpeed = 0.45f;
+        acceleration = 1f;
+        breaking = 0.25f;
+        maxSpeed = 1f;
         rotateSpeed = 2f;
     }
 
-    void CalculateMovement()
+    void Move()
     {
+        // velocity change
+        float dv = Input.GetAxisRaw("Vertical") * Time.deltaTime * acceleration;
+        if (dv == 0)
+            velocity -= breaking * Time.deltaTime;
+        else
+            velocity += dv;
+        velocity = Mathf.Clamp(velocity, 0f, maxSpeed);
+        trackPosition.Move(velocity);
 
+        
     }
 
 	// Update is called once per frame
 	void Update () {
 
-        // move player
-        float dist = Input.GetAxis("Vertical") * maxSpeed;
-        trackPosition.Move(dist);
-        // set glow based on speed
-        mat.SetFloat("_GlowPower", 5 - (dist * 15));
+        if (!isStuck)
+            Move();
+
+        // set glow based on velocity
+        float percent = velocity / maxSpeed;
+        mat.SetFloat("_GlowPower", 3 - (3 * percent));
 
         // rotate player
         var degrees = -Input.GetAxis("Horizontal") * rotateSpeed;
@@ -39,13 +54,14 @@ public class Player : MonoBehaviour {
     // called from the PlayerCollision
     public void OnCollisionEnter()
     {
-        maxSpeed = 0;
+        isStuck = true;
+        velocity = 0f;
     }
 
     // called from the PlayerCollision
     public void OnCollisionExit()
     {
-        maxSpeed = 1f;
+        isStuck = false;
     }
 
     public void SetTrackPosition(TrackPosition tp)
