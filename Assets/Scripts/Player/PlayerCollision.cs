@@ -13,9 +13,17 @@ public class PlayerCollision : MonoBehaviour {
 	void OnCollisionEnter(Collision coll)
     {
         var x = transform.InverseTransformPoint(coll.contacts[0].point);
-        print(x);
-        player.OnCollisionEnter();
-
+        //print(x);
+        if (coll.transform.tag == "Powerup")
+        {
+            coll.gameObject.SetActive(false);
+            player.ActivatePowerup();
+        }
+        else
+        {
+            Camera.main.GetComponent<HitCameraEffect>().TriggerGrayScale();
+            player.OnCollisionEnter();
+        }
     }
     
     void OnCollisionExit(Collision coll)
