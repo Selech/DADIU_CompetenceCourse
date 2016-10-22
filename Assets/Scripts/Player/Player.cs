@@ -10,6 +10,7 @@ public class Player : MonoBehaviour {
     private bool isStuck;
     private TrackPosition trackPosition;
     public Material mat;
+    public Light internalLight;
 	
     void Reset()
     {
@@ -41,7 +42,8 @@ public class Player : MonoBehaviour {
 
         // set glow based on velocity
         float percent = velocity / maxSpeed;
-        mat.SetFloat("_GlowPower", 3 - (3 * percent));
+        mat.SetFloat("_GlowPower", 2 - (2 * percent));
+	    internalLight.intensity = 1*percent;
 
         // rotate player
         var degrees = -Input.GetAxis("Horizontal") * rotateSpeed;
@@ -69,5 +71,11 @@ public class Player : MonoBehaviour {
         trackPosition = tp;
         transform.position = trackPosition.Position;
         transform.forward = trackPosition.Forward;
+    }
+
+    public void ActivatePowerup()
+    {
+        // TODO
+        print("POWERUP!");
     }
 }
