@@ -36,6 +36,7 @@ public class TrackPosition
 
     public TrackPosition(Vector3[] points)
     {
+        index = 500;
         this.points = points;
     }
 
