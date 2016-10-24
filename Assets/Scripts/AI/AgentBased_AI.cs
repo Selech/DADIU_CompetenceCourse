@@ -37,9 +37,13 @@ public class AgentBased_AI : MonoBehaviour
 
     void Start()
     {
+        maxSpeed *= GameManager.singleton.settings.speedFactor;
         _maxSpeed = maxSpeed;
+        acceleration *= GameManager.singleton.settings.speedFactor;
         _acceleration = acceleration;
+		rotateSpeed *= GameManager.singleton.settings.speedFactor;
         _rotateSpeed = rotateSpeed;
+        
     }
 
     void Awake()

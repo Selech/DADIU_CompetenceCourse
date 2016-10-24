@@ -1,6 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;
 using UnityEngine.SceneManagement;
+using System.Linq;
+using System.Collections.Generic;
 
 public class GameSettings
 {
@@ -11,16 +13,9 @@ public class GameSettings
 public class GameManager : MonoBehaviour {
     public static GameManager singleton;
     public GameSettings settings;
-
-
-
-
-
-
-
     public Track track;
-    public Player[] players;
-    public AgentBased_AI[] agents;
+    public Player player;
+    public List<AgentBased_AI> agents;
 
     void Awake () {
         if (singleton != null)
@@ -28,36 +23,27 @@ public class GameManager : MonoBehaviour {
             Destroy(this);
             return;
         }
+        singleton = this;
 
         DontDestroyOnLoad(gameObject);
         SceneManager.sceneLoaded += OnSceneLoaded;
-
-
-
-
-        
-
-        
-        
-
-        
     }
 
     public void SetDifficulty(string difficulty)
     {
-        switch (PlayerPrefs.GetString("Difficulty"))
+        switch (difficulty)
         {
             case "Hard":
                 settings = new GameSettings()
                 {
-                    speedFactor = 1.5f,
+                    speedFactor = 1.2f,
                     labs = 3
                 };
                 break;
             case "Korean":
                 settings = new GameSettings()
                 {
-                    speedFactor = 2.5f,
+                    speedFactor = 1.7f,
                     labs = 4
                 };
                 break;
@@ -75,16 +61,11 @@ public class GameManager : MonoBehaviour {
     {
         if (scene.name == "Level1")
         {
-            // init players and AI's
-            foreach (Player player in players)
-            {
-                player.SetTrackPosition(track.CreateTrackPosition());
-            }
-
-            foreach (AgentBased_AI agent in agents)
-            {
-                agent.SetTrackPosition(track.CreateTrackPosition());
-            }
+            track = GameObject.Find("Track").GetComponent<Track>();
+            player = GameObject.Find("Player").GetComponent<Player>();
+            player.SetTrackPosition(track.CreateTrackPosition());
+            agents = GameObject.FindGameObjectsWithTag("AI").Select(x => x.GetComponent<AgentBased_AI>()).ToList();
+            agents.ForEach(x => x.SetTrackPosition(track.CreateTrackPosition()));
         }
     }
 }

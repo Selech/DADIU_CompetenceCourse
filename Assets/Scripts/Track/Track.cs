@@ -8,6 +8,7 @@ public class Track : MonoBehaviour {
     public const float radius = 0.65f;
     private const int verticesPerPoint = 10;
     private Vector3[] points;
+    private float trackLength;
 
 
 
@@ -16,12 +17,16 @@ public class Track : MonoBehaviour {
 	void Awake () {
         // transform the curve points to world space
         points = GetComponent<BezierCurve>().GetPoints();
+        for (int i = 0; i < points.Length; i++)
+        {
+            trackLength += (points[(i + 1) % points.Length] - points[i]).magnitude;
+        }
         GenerateTrackMesh();
     }
 
     public TrackPosition CreateTrackPosition()
     {
-        return new TrackPosition(points);
+        return new TrackPosition(points, trackLength);
     }
 
     private void GenerateTrackMesh()

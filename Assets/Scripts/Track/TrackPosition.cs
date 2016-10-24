@@ -3,8 +3,18 @@ using System.Collections;
 
 public class TrackPosition
 {
-    public int Round { get; private set; }
-    public float RoundProgress { get; private set; }
+    public int Round {
+        get
+        {
+            return (int)(dTrack / dTrackTotal) + 1;
+        }
+    }
+    public float RoundProgress {
+        get
+        {
+            return (dTrack % dTrackTotal) / dTrackTotal;
+        }
+    }
     public Vector3 Forward
     {
         get {
@@ -33,11 +43,14 @@ public class TrackPosition
     private float angle;
     private int index; // index of the current line segment
     private float d; // the distance traveled on the current line segment
+    private float dTrack; // the distanced traveled along the track
+    private float dTrackTotal; // the distance of the track
 
-    public TrackPosition(Vector3[] points)
+    public TrackPosition(Vector3[] points, float totalDistance)
     {
         index = 500;
         this.points = points;
+        dTrackTotal = totalDistance;
     }
 
     /// <summary>
@@ -50,6 +63,8 @@ public class TrackPosition
     {
         if (distance <= 0)
             return;
+
+        dTrack += distance;
 
         // make up for the distance along the line
         distance += d;
@@ -83,8 +98,6 @@ public class TrackPosition
         {
             // we completet a round on the track
             index = 0;
-            Round++;
-            RoundProgress = 0f;
         }
     }
 }
