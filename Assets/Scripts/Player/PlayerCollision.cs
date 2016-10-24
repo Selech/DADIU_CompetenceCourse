@@ -7,7 +7,7 @@ public class PlayerCollision : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-        player = GetComponentInParent<Player>();
+        player = GetComponent<Player>();
 	}
 	
 	void OnCollisionEnter(Collision coll)
@@ -22,12 +22,12 @@ public class PlayerCollision : MonoBehaviour {
         else
         {
             Camera.main.GetComponent<HitCameraEffect>().TriggerGrayScale();
-            player.OnCollisionEnter();
+            player.CollisionEnter();
         }
     }
     
     void OnCollisionExit(Collision coll)
     {
-        player.OnCollisionExit();
+        player.CollisionExit();
     }
 }
