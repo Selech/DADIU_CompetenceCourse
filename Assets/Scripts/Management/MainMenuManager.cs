@@ -31,13 +31,12 @@ public class MainMenuManager : MonoBehaviour {
 
     public void OnStartBtnClick()
     {
-        PlayerPrefs.SetString("Difficulty", difficulty);
+        GameManager.singleton.SetDifficulty(difficulty);
         SceneManager.LoadScene("Level1");
     }
 
     public void OnExitBtnClick()
     {
-        print("Quit");
         Application.Quit();
     }
 }

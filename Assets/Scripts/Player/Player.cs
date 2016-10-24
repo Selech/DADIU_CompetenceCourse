@@ -19,8 +19,12 @@ public class Player : MonoBehaviour {
 
     void Start()
     {
+        maxSpeed *= GameManager.singleton.settings.speedFactor;
         _maxSpeed = maxSpeed;
+        acceleration *= GameManager.singleton.settings.speedFactor;
         _acceleration = acceleration;
+
+        rotateSpeed *= GameManager.singleton.settings.speedFactor;
 
         audioSources = this.GetComponents<AudioSource>();
     }
