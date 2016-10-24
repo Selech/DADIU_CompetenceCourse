@@ -21,6 +21,7 @@ public class PlayerCollision : MonoBehaviour {
         }
         else
         {
+
             Camera.main.GetComponent<HitCameraEffect>().TriggerGrayScale();
             player.CollisionEnter();
         }

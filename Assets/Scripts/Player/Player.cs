@@ -15,10 +15,14 @@ public class Player : MonoBehaviour {
     public Material mat;
     public Light internalLight;
 
+    public AudioSource[] audioSources;
+
     void Start()
     {
         _maxSpeed = maxSpeed;
         _acceleration = acceleration;
+
+        audioSources = this.GetComponents<AudioSource>();
     }
 
     void Reset()
@@ -37,6 +41,7 @@ public class Player : MonoBehaviour {
             velocity -= breaking * Time.deltaTime;
         else
             velocity += dv;
+        
         velocity = Mathf.Clamp(velocity, 0f, _maxSpeed);
         trackPosition.Move(velocity);
 
@@ -54,6 +59,10 @@ public class Player : MonoBehaviour {
         mat.SetFloat("_GlowPower", 2 - (2 * percent));
 	    internalLight.intensity = 1*percent;
 
+        // pitch roll sound
+	    audioSources[0].pitch = 0.8f*percent + 0.3f;
+        audioSources[0].volume = 0.8f * percent + 0.1f;
+
         // rotate player
         var degrees = -Input.GetAxis("Horizontal") * rotateSpeed;
         trackPosition.Rotate(degrees);
@@ -68,6 +77,7 @@ public class Player : MonoBehaviour {
     // called from the PlayerCollision
     public void CollisionEnter()
     {
+        audioSources[1].Play();
         isStuck = true;
         velocity = 0f;
     }
@@ -88,6 +98,7 @@ public class Player : MonoBehaviour {
     public void ActivatePowerup()
     {
         // TODO
+        audioSources[2].Play();
         Camera.main.GetComponent<CameraScript>().TriggerShake();
         print("POWERUP!");
         StartCoroutine(Powerup());
