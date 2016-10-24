@@ -21,6 +21,7 @@ public class AgentBased_AI : MonoBehaviour
     private float _maxSpeed;
     public float maxSpeed;
     public float rotateSpeed;
+    private float _rotateSpeed;
     private float velocity;
     private bool isStuck;
     private TrackPosition trackPosition;
@@ -32,14 +33,17 @@ public class AgentBased_AI : MonoBehaviour
     private bool lastRightHit;
     private bool lastLeftHit;
 
+    private bool beenStuck;
+
     void Start()
     {
         maxSpeed *= GameManager.singleton.settings.speedFactor;
         _maxSpeed = maxSpeed;
         acceleration *= GameManager.singleton.settings.speedFactor;
         _acceleration = acceleration;
-        rotateSpeed *= GameManager.singleton.settings.speedFactor;
-
+		rotateSpeed *= GameManager.singleton.settings.speedFactor;
+        _rotateSpeed = rotateSpeed;
+        
     }
 
     void Awake()
@@ -66,8 +70,8 @@ public class AgentBased_AI : MonoBehaviour
     {
         if (isStuck)
         {
-            lastRightHit = sensors.sensorRightHit ? true : false;
-            lastLeftHit = sensors.sensorLeftHit ? true : false;
+            lastRightHit = sensors.sensorRightHit || (lastRightHit && ! lastLeftHit) ? true : false;
+            lastLeftHit = sensors.sensorLeftHit || (!lastRightHit && lastLeftHit) ? true : false;
         }
 
         sensors.UpdateSensor();
@@ -95,17 +99,23 @@ public class AgentBased_AI : MonoBehaviour
 
             // rotate player
             float degrees = 0f;
-            if (currentTurnState == State.TurningLeft)
+            if (currentTurnState == State.TurningLeft && !beenStuck)
             {
                 degrees = 1 * rotateSpeed;
             }
-            else if (currentTurnState == State.TurningRight)
+            else if (currentTurnState == State.TurningRight && !beenStuck)
             {
-                degrees = -1*rotateSpeed;
+                degrees = -1 * rotateSpeed;
             }
             else
             {
-                degrees = 1 * rotateSpeed;
+                beenStuck = true;
+                if(lastRightHit)
+                    degrees = 1 * rotateSpeed;
+                else if(lastLeftHit)
+                    degrees = -1 * rotateSpeed;
+                else
+                    degrees = -1 * rotateSpeed;
             }
             trackPosition.Rotate(degrees);
 
@@ -115,7 +125,7 @@ public class AgentBased_AI : MonoBehaviour
         else
         {
             Move();
-
+            beenStuck = false;
             // set glow based on velocity
             float percent = velocity / _maxSpeed;
             mat.SetFloat("_GlowAmount", 1f * percent);
@@ -125,11 +135,11 @@ public class AgentBased_AI : MonoBehaviour
             float degrees = 0f;
             if (currentTurnState == State.TurningLeft)
             {
-                degrees = 2 * rotateSpeed;
+                degrees = 1 * _rotateSpeed;
             }
             else if (currentTurnState == State.TurningRight)
             {
-                degrees = -2*rotateSpeed;
+                degrees = -1 * _rotateSpeed;
             }
             trackPosition.Rotate(degrees);
 
@@ -159,14 +169,25 @@ public class AgentBased_AI : MonoBehaviour
         transform.forward = trackPosition.Forward;
     }
 
-    public void ActivatePowerup()
+    public void ActivateRotationPowerup()
     {
-        Camera.main.GetComponent<CameraScript>().TriggerShake();
-        print("POWERUP!");
-        StartCoroutine(Powerup());
+        //Camera.main.GetComponent<CameraScript>().TriggerShake();
+        StartCoroutine(PowerupRotation());
     }
 
-    IEnumerator Powerup()
+    IEnumerator PowerupRotation()
+    {
+        _rotateSpeed = rotateSpeed * 2;
+        yield return new WaitForSeconds(5f);
+        _rotateSpeed = rotateSpeed;
+    }
+
+    public void ActivateSpeedPowerup()
+    {
+        StartCoroutine(PowerupSpeed());
+    }
+
+    IEnumerator PowerupSpeed()
     {
         _maxSpeed = maxSpeed * 2;
         _acceleration = acceleration * 2;

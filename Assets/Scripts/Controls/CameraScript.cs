@@ -6,7 +6,7 @@ public class CameraScript : MonoBehaviour {
 	public Transform target;
 	public Vector3 offset;
 	public float slerpAmount;
-    private bool shake;
+
     public ParticleSystem ParticleSystem;
 
 	// Use this for initialization
@@ -14,8 +14,6 @@ public class CameraScript : MonoBehaviour {
         target = GameObject.Find("Player").transform;
         slerpAmount = 10f;
         offset = new Vector3(0, -3, 10);
-	    shake = false;
-
 	}
 
 	void Start()
@@ -39,15 +37,4 @@ public class CameraScript : MonoBehaviour {
 	    transform.position += shakeVector;
 	}
 
-    public void TriggerShake()
-    {
-        shake = true;
-    }
-
-    IEnumerator ShakeCamera()
-    {
-        yield return new WaitForSeconds(5f);
-        ParticleSystem.Stop();
-        shake = false;
-    }
 }
