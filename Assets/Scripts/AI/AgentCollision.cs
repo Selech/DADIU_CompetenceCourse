@@ -20,7 +20,7 @@ public class AgentCollision : MonoBehaviour {
         }
         else
         {
-            Camera.main.GetComponent<HitCameraEffect>().TriggerGrayScale();
+            //Camera.main.GetComponent<HitCameraEffect>().TriggerGrayScale();
             agent.OnCollisionEnter();
         }
 
