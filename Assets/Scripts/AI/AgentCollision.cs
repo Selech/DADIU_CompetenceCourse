@@ -16,7 +16,12 @@ public class AgentCollision : MonoBehaviour {
         //print(x);
         if (coll.transform.tag == "Powerup")
         {
-            agent.ActivatePowerup();
+            agent.ActivateSpeedPowerup();
+        }
+        else if (coll.transform.tag == "PowerupRotation")
+        {
+            //coll.gameObject.SetActive(false);
+            agent.ActivateRotationPowerup();
         }
         else
         {

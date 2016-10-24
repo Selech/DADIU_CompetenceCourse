@@ -134,7 +134,7 @@ public class SensorScript : MonoBehaviour {
         }
         else
         {
-            parentScript.currentForwardState = centerHit.distance < 10 ? AgentBased_AI.State.Stopping : AgentBased_AI.State.Forward;
+            parentScript.currentForwardState = centerHit.distance < 30 ? AgentBased_AI.State.Stopping : AgentBased_AI.State.Forward;
         }
         #endregion
     }

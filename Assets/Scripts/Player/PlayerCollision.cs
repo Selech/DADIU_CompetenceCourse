@@ -14,7 +14,12 @@ public class PlayerCollision : MonoBehaviour {
     {
         var x = transform.InverseTransformPoint(coll.contacts[0].point);
         //print(x);
-        if (coll.transform.tag == "Powerup")
+        if (coll.transform.tag == "PowerupSpeed")
+        {
+            coll.gameObject.SetActive(false);
+            player.ActivatePowerup();
+        }
+        else if (coll.transform.tag == "PowerupRotation")
         {
             coll.gameObject.SetActive(false);
             player.ActivatePowerup();
