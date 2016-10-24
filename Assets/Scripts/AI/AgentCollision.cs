@@ -16,7 +16,7 @@ public class AgentCollision : MonoBehaviour {
         //print(x);
         if (coll.transform.tag == "Powerup")
         {
-            // nothing happens when agent hits!
+            agent.ActivatePowerup();
         }
         else
         {

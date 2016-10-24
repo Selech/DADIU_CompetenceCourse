@@ -1,11 +1,12 @@
-﻿Shader "DADIU_Competence/GlowShader" {
+﻿Shader "DADIU_Competence/GlowShaderCenter" {
 	Properties {
 		_Color ("Color", Color) = (1,1,1,1)
 		_MainTex ("Albedo (RGB)", 2D) = "white" {}
 		_Glossiness ("Smoothness", Range(0,1)) = 0.5
 		_Metallic ("Metallic", Range(0,1)) = 0.0
-		_GlowPower ("Glow Power", Range(0,10.0)) = 1.0
+		_GlowPower ("Glow Power", Range(0,100.0)) = 1.0
 		_GlowColor ("Glow Color", Color) = (1,1,1,1)
+		_GlowAmount("Glow Amount", Range(0.0,1.0)) = 0
 	}
 	SubShader {
 		Tags { "RenderType"="Opaque" }
@@ -30,10 +31,9 @@
 		fixed4 _Color;
 		float4 _GlowColor;
 		float _GlowPower;
+		float _GlowAmount;
 
 		float _Bool = 1.0;
-
-		
 
 		void surf (Input IN, inout SurfaceOutputStandard o) {
 			// Albedo comes from a texture tinted by color
@@ -44,7 +44,7 @@
 			o.Smoothness = _Glossiness;
 			o.Alpha = c.a;
 
-			half rim = 1.0 - saturate(dot(normalize(IN.viewDir), o.Normal));
+			half rim = saturate(dot(normalize(IN.viewDir), o.Normal)) * _GlowAmount;
 			o.Emission = _GlowColor.rgb * pow(rim, _GlowPower);
 
 		}
