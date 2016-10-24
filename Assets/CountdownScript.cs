@@ -16,9 +16,18 @@ public class CountdownScript : MonoBehaviour
 	void Update ()
 	{
 	    var left = Count - (int) Time.timeSinceLevelLoad;
-	    CountdownText.text = left + "";
+	    if (left <= 0)
+	    {
+            CountdownText.text = "GO";
 
-	    if (left == 0)
-	        print("Game start");
+            if (left <= -2) { 
+                CountdownText.gameObject.SetActive(false);
+                this.enabled = false;
+            }
+        }
+	    else
+	    {
+	        CountdownText.text = left + "";
+        }
 	}
 }
