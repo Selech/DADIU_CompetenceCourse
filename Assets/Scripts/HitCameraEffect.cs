@@ -21,7 +21,7 @@ public class HitCameraEffect : MonoBehaviour {
 
     void Update()
     {
-        if (amount > 0) amount -= 0.005f;
+        if (amount > 0) amount -= 0.015f;
     }
 
     public void TriggerGrayScale()
