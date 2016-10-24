@@ -116,7 +116,7 @@ public class Player : MonoBehaviour {
     public void ActivateSpeedPowerup()
     {
         audioSources[2].Play();
-        StartCoroutine(Powerup());
+        StartCoroutine(PowerupSpeed());
     }
 
     IEnumerator PowerupSpeed()
