@@ -24,9 +24,9 @@ public class MainMenuManager : MonoBehaviour {
     private void SetBestTimeLabel(string key)
     {
         if (PlayerPrefs.HasKey(key))
-            label.text = "Best time:  " + PlayerPrefs.GetString(key);
+            label.text = "Best tim e:  " + PlayerPrefs.GetString(key);
         else
-            label.text = "Best time:  ---";
+            label.text = "Best tim e:  ---";
     }
 
     public void OnStartBtnClick()
