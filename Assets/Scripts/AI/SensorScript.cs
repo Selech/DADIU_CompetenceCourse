@@ -15,11 +15,11 @@ public class SensorScript : MonoBehaviour {
     public bool sensorLeftHit;
 
     [Header("Sensors")]
-    public Transform LeftFar;
     public Transform Left;
+    public Transform LeftFine;
     public Transform Center;
+    public Transform RightFine;
     public Transform Right;
-    public Transform RightFar;
 
     [Header("Sensors setting")]
     public float SensorLength;
@@ -52,9 +52,9 @@ public class SensorScript : MonoBehaviour {
 
         // Left far sensor
         ray = new Ray(Left.position, Left.forward);
-        RaycastHit leftFarHit;
-        Debug.DrawRay(LeftFar.position, LeftFar.forward * SensorLength, Color.green);
-        Physics.Raycast(ray, out leftFarHit, SensorLength, DetectLayerMask);
+        RaycastHit leftFineHit;
+        Debug.DrawRay(LeftFine.position, LeftFine.forward * SensorLength, Color.green);
+        Physics.Raycast(ray, out leftFineHit, SensorLength, DetectLayerMask);
         #endregion
 
         #region Right sensors
@@ -65,16 +65,45 @@ public class SensorScript : MonoBehaviour {
         Physics.Raycast(ray, out rightHit, SensorLength, DetectLayerMask);
 
         // Right far sensor
-        ray = new Ray(RightFar.position, RightFar.forward);
-        RaycastHit rightFarHit;
-        Debug.DrawRay(RightFar.position, RightFar.forward * SensorLength, Color.green);
-        Physics.Raycast(ray, out rightFarHit, SensorLength, DetectLayerMask);
+        ray = new Ray(RightFine.position, RightFine.forward);
+        RaycastHit rightFineHit;
+        Debug.DrawRay(RightFine.position, RightFine.forward * SensorLength, Color.green);
+        Physics.Raycast(ray, out rightFineHit, SensorLength, DetectLayerMask);
         #endregion
 
+        #region Set turning direction
         // Go forward
         if (!leftHit.collider && !centerHit.collider && !rightHit.collider)
         {
-            parentScript.currentTurnState = AgentBased_AI.State.Forward;
+            if (!leftFineHit.collider && rightFineHit.collider)
+            {
+                parentScript.currentTurnState = AgentBased_AI.State.TurningLeft;
+                print("left march!");
+            }
+            else if (leftFineHit.collider && !rightFineHit.collider)
+            {
+                parentScript.currentTurnState = AgentBased_AI.State.TurningRight;
+                print("right march!");
+            }
+            else
+            {
+                parentScript.currentTurnState = AgentBased_AI.State.Forward;
+                print("Forward march!");
+            }
+        }
+        // Only hit in the middle
+        else if (!leftHit.collider && centerHit.collider && !rightHit.collider)
+        {
+            if (!leftFineHit.collider && rightFineHit.collider)
+            {
+                parentScript.currentTurnState = AgentBased_AI.State.TurningLeft;
+                print("left march!");
+            }
+            else 
+            {
+                parentScript.currentTurnState = AgentBased_AI.State.TurningRight;
+                print("right march!");
+            }
         }
         // Go turn left
         else if (!leftHit.collider && rightHit.collider)
@@ -96,6 +125,9 @@ public class SensorScript : MonoBehaviour {
             parentScript.currentTurnState = AgentBased_AI.State.Forward;
         }
 
+        #endregion
+
+        #region brakingRegion
         if (!centerHit.collider)
         {
             parentScript.currentForwardState = AgentBased_AI.State.Forward;
@@ -104,22 +136,7 @@ public class SensorScript : MonoBehaviour {
         {
             parentScript.currentForwardState = centerHit.distance < 10 ? AgentBased_AI.State.Stopping : AgentBased_AI.State.Forward;
         }
-    }
-
-    private void SetState()
-    {
-        /*if (rightHit.distance + rightFarHit.distance < leftHit.distance + leftFarHit.distance)
-        {
-            parentScript.currentState = AgentBased_AI.State.TurningLeft;
-        }
-        else if (rightHit.distance + rightFarHit.distance > leftHit.distance + leftFarHit.distance)
-        {
-            parentScript.currentState = AgentBased_AI.State.TurningRight;
-        }
-        else
-        {
-            parentScript.currentState = AgentBased_AI.State.Forward;
-        }*/
+        #endregion
     }
 
 }

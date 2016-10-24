@@ -56,8 +56,8 @@ public class Player : MonoBehaviour {
 
         // set glow based on velocity
         float percent = velocity / _maxSpeed;
-        mat.SetFloat("_GlowPower", 2 - (2 * percent));
-	    internalLight.intensity = 1*percent;
+        mat.SetFloat("_GlowAmount", 1f * percent);
+	    internalLight.intensity = 1f*percent;
 
         // pitch roll sound
 	    audioSources[0].pitch = 0.8f*percent + 0.3f;

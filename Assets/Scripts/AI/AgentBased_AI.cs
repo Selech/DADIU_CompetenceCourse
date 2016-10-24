@@ -15,8 +15,10 @@ public class AgentBased_AI : MonoBehaviour
     public State currentTurnState;
     public State currentForwardState;
 
+    private float _acceleration;
     public float acceleration;
     public float breaking;
+    private float _maxSpeed;
     public float maxSpeed;
     public float rotateSpeed;
     private float velocity;
@@ -29,6 +31,18 @@ public class AgentBased_AI : MonoBehaviour
 
     private bool lastRightHit;
     private bool lastLeftHit;
+
+    void Start()
+    {
+        _maxSpeed = maxSpeed;
+        _acceleration = acceleration;
+        
+    }
+
+    void Awake()
+    {
+        //Time.timeScale = 10.5f;
+    }
 
     void Reset()
     {
@@ -59,12 +73,12 @@ public class AgentBased_AI : MonoBehaviour
     void Move()
     {
         // velocity change
-        float dv = 1f * Time.deltaTime * acceleration;
+        float dv = 1f * Time.deltaTime * _acceleration;
         if (currentForwardState == State.Stopping)
             velocity -= breaking * Time.deltaTime;
         else
             velocity += dv;
-        velocity = Mathf.Clamp(velocity, 0f, maxSpeed);
+        velocity = Mathf.Clamp(velocity, 0f, _maxSpeed);
         trackPosition.Move(velocity);
     }
 
@@ -73,7 +87,7 @@ public class AgentBased_AI : MonoBehaviour
     {
         if (isStuck)
         {
-            mat.SetFloat("_GlowPower", 2 - (2 * 0f));
+            mat.SetFloat("_GlowAmount", 0);
             internalLight.intensity = 1 * 0f;
 
             // rotate player
@@ -84,7 +98,11 @@ public class AgentBased_AI : MonoBehaviour
             }
             else if (currentTurnState == State.TurningRight)
             {
-                degrees = -1 * rotateSpeed;
+                degrees = -1*rotateSpeed;
+            }
+            else
+            {
+                degrees = 1 * rotateSpeed;
             }
             trackPosition.Rotate(degrees);
 
@@ -96,9 +114,9 @@ public class AgentBased_AI : MonoBehaviour
             Move();
 
             // set glow based on velocity
-            float percent = velocity / maxSpeed;
-            mat.SetFloat("_GlowPower", 2 - (2 * percent));
-            internalLight.intensity = 1 * percent;
+            float percent = velocity / _maxSpeed;
+            mat.SetFloat("_GlowAmount", 1f * percent);
+            internalLight.intensity = 1f * percent;
 
             // rotate player
             float degrees = 0f;
@@ -136,5 +154,21 @@ public class AgentBased_AI : MonoBehaviour
         trackPosition = tp;
         transform.position = trackPosition.Position;
         transform.forward = trackPosition.Forward;
+    }
+
+    public void ActivatePowerup()
+    {
+        Camera.main.GetComponent<CameraScript>().TriggerShake();
+        print("POWERUP!");
+        StartCoroutine(Powerup());
+    }
+
+    IEnumerator Powerup()
+    {
+        _maxSpeed = maxSpeed * 2;
+        _acceleration = acceleration * 2;
+        yield return new WaitForSeconds(5f);
+        _maxSpeed = maxSpeed;
+        _acceleration = acceleration;
     }
 }
