@@ -12,8 +12,6 @@ public class AgentCollision : MonoBehaviour {
 	
 	void OnCollisionEnter(Collision coll)
     {
-        var x = transform.InverseTransformPoint(coll.contacts[0].point);
-        //print(x);
         if (coll.transform.tag == "Powerup")
         {
             agent.ActivateSpeedPowerup();

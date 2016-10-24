@@ -70,8 +70,8 @@ public class AgentBased_AI : MonoBehaviour
     {
         if (isStuck)
         {
-            lastRightHit = sensors.sensorRightHit ? true : false;
-            lastLeftHit = sensors.sensorLeftHit ? true : false;
+            lastRightHit = sensors.sensorRightHit || (lastRightHit && ! lastLeftHit) ? true : false;
+            lastLeftHit = sensors.sensorLeftHit || (!lastRightHit && lastLeftHit) ? true : false;
         }
 
         sensors.UpdateSensor();
@@ -110,7 +110,12 @@ public class AgentBased_AI : MonoBehaviour
             else
             {
                 beenStuck = true;
-                degrees = -1 * rotateSpeed;
+                if(lastRightHit)
+                    degrees = 1 * rotateSpeed;
+                else if(lastLeftHit)
+                    degrees = -1 * rotateSpeed;
+                else
+                    degrees = -1 * rotateSpeed;
             }
             trackPosition.Rotate(degrees);
 
@@ -179,7 +184,6 @@ public class AgentBased_AI : MonoBehaviour
 
     public void ActivateSpeedPowerup()
     {
-        Camera.main.GetComponent<CameraScript>().TriggerShake();
         StartCoroutine(PowerupSpeed());
     }
 

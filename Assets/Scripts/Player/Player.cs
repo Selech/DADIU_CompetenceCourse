@@ -8,9 +8,9 @@ public class Player : MonoBehaviour {
     public float maxSpeed;
     private float _maxSpeed;
     public float rotateSpeed;
+    public float _rotateSpeed;
     public float velocity;
     private bool isStuck;
-    private bool powerUpActivated;
     private TrackPosition trackPosition;
     public Material mat;
     public Light internalLight;
@@ -25,6 +25,7 @@ public class Player : MonoBehaviour {
         _acceleration = acceleration;
 
         rotateSpeed *= GameManager.singleton.settings.speedFactor;
+        _rotateSpeed = rotateSpeed;
 
         audioSources = this.GetComponents<AudioSource>();
     }
@@ -68,7 +69,7 @@ public class Player : MonoBehaviour {
         audioSources[0].volume = 0.8f * percent + 0.1f;
 
         // rotate player
-        var degrees = -Input.GetAxis("Horizontal") * rotateSpeed;
+        var degrees = -Input.GetAxis("Horizontal") * _rotateSpeed;
         trackPosition.Rotate(degrees);
 
 		transform.position = trackPosition.Position;
@@ -99,22 +100,30 @@ public class Player : MonoBehaviour {
         transform.forward = trackPosition.Forward;
     }
 
-    public void ActivatePowerup()
+    public void ActivateRotationPowerup()
     {
-        // TODO
+        //Camera.main.GetComponent<CameraScript>().TriggerShake();
+        StartCoroutine(PowerupRotation());
+    }
+
+    IEnumerator PowerupRotation()
+    {
+        _rotateSpeed = rotateSpeed * 2;
+        yield return new WaitForSeconds(5f);
+        _rotateSpeed = rotateSpeed;
+    }
+
+    public void ActivateSpeedPowerup()
+    {
         audioSources[2].Play();
-        Camera.main.GetComponent<CameraScript>().TriggerShake();
-        print("POWERUP!");
         StartCoroutine(Powerup());
     }
 
-    IEnumerator Powerup()
+    IEnumerator PowerupSpeed()
     {
-        powerUpActivated = true;
         _maxSpeed = maxSpeed*2;
         _acceleration = acceleration * 2;
         yield return new WaitForSeconds(5f);
-        powerUpActivated = false;
         _maxSpeed = maxSpeed;
         _acceleration = acceleration;
     }
