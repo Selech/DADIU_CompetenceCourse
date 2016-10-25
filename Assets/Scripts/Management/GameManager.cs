@@ -6,24 +6,37 @@ using System.Collections.Generic;
 
 public class GameSettings
 {
-    public float speedFactor;
-    public int labs;
+    public float speedFactor = 1f;
+    public int labs = 3;
 }
 
 public class GameManager : MonoBehaviour {
-    public static GameManager singleton;
-    public GameSettings settings;
+    private static GameManager _instance;
+    public static GameManager Instance
+    {
+        get
+        {
+            if (_instance == null)
+            {
+                GameObject go = new GameObject("GameManager");
+                go.AddComponent<GameManager>();
+            }
+            return _instance;
+        }
+    }
+
+    public GameSettings settings = new GameSettings();
     public Track track;
     public Player player;
     public List<AgentBased_AI> agents;
 
     void Awake () {
-        if (singleton != null)
+        if (_instance != null)
         {
             Destroy(this);
             return;
         }
-        singleton = this;
+        _instance = this;
 
         DontDestroyOnLoad(gameObject);
         SceneManager.sceneLoaded += OnSceneLoaded;
