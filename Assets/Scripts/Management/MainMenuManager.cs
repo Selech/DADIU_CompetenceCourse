@@ -31,7 +31,7 @@ public class MainMenuManager : MonoBehaviour {
 
     public void OnStartBtnClick()
     {
-        GameManager.singleton.SetDifficulty(difficulty);
+        GameManager.Instance.SetDifficulty(difficulty);
         SceneManager.LoadScene("Level1");
     }
 

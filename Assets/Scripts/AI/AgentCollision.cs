@@ -12,7 +12,7 @@ public class AgentCollision : MonoBehaviour {
 	
 	void OnCollisionEnter(Collision coll)
     {
-        if (coll.transform.tag == "Powerup")
+        if (coll.transform.tag == "PowerupSpeed")
         {
             agent.ActivateSpeedPowerup();
         }

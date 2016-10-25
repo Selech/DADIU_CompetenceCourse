@@ -37,11 +37,11 @@ public class AgentBased_AI : MonoBehaviour
 
     void Start()
     {
-        maxSpeed *= GameManager.singleton.settings.speedFactor;
+        maxSpeed *= GameManager.Instance.settings.speedFactor;
         _maxSpeed = maxSpeed;
-        acceleration *= GameManager.singleton.settings.speedFactor;
+        acceleration *= GameManager.Instance.settings.speedFactor;
         _acceleration = acceleration;
-		rotateSpeed *= GameManager.singleton.settings.speedFactor;
+		rotateSpeed *= GameManager.Instance.settings.speedFactor;
         _rotateSpeed = rotateSpeed;
         
     }

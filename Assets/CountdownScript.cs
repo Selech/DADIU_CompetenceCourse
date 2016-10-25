@@ -5,7 +5,7 @@ using UnityEngine.UI;
 public class CountdownScript : MonoBehaviour
 {
     public Text CountdownText;
-    public int Count;
+    public int Count = 3;
 
 	// Use this for initialization
 	void Start () {

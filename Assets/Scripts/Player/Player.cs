@@ -19,12 +19,12 @@ public class Player : MonoBehaviour {
 
     void Start()
     {
-        maxSpeed *= GameManager.singleton.settings.speedFactor;
+        maxSpeed *= GameManager.Instance.settings.speedFactor;
         _maxSpeed = maxSpeed;
-        acceleration *= GameManager.singleton.settings.speedFactor;
+        acceleration *= GameManager.Instance.settings.speedFactor;
         _acceleration = acceleration;
 
-        rotateSpeed *= GameManager.singleton.settings.speedFactor;
+        rotateSpeed *= GameManager.Instance.settings.speedFactor;
         _rotateSpeed = rotateSpeed;
 
         audioSources = this.GetComponents<AudioSource>();
@@ -102,7 +102,7 @@ public class Player : MonoBehaviour {
 
     public void ActivateRotationPowerup()
     {
-        //Camera.main.GetComponent<CameraScript>().TriggerShake();
+        audioSources[2].Play();
         StartCoroutine(PowerupRotation());
     }
 
