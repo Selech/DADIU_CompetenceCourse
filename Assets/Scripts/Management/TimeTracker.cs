@@ -5,8 +5,7 @@ using System;
 public class TimeTracker : MonoBehaviour {
 
     private UIManager ui;
-    private DateTime startTime;
-    private DateTime? endTime;
+    private int secondsPassed;
 
     void Start()
     {
@@ -15,20 +14,18 @@ public class TimeTracker : MonoBehaviour {
 
     public void StartTracking()
     {
-        startTime = DateTime.Now;
-        endTime = null;
-        InvokeRepeating("UpdateTimeText", 0, 1);
+        InvokeRepeating("UpdateTime", 0, 1f);
     }
 
     public void StopTracking()
     {
-        endTime = DateTime.Now;
         CancelInvoke();
+
     }
 
-    void UpdateTimeText()
+    void UpdateTime()
     {
-        ui.UpdateHUDTime((int)(DateTime.Now - startTime).TotalSeconds);
+        ui.UpdateHUDTime(secondsPassed++);
     }
 
     public string GetTime()

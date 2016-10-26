@@ -89,6 +89,7 @@ public class BezierCurve : MonoBehaviour
 
     public Vector3[] GetPoints()
     {
+        GenerateCurvePoints();
         return points;
     }
 }
