@@ -20,7 +20,6 @@ public class TimeTracker : MonoBehaviour {
     public void StopTracking()
     {
         CancelInvoke();
-
     }
 
     void UpdateTime()
