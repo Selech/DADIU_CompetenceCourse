@@ -25,7 +25,13 @@ public class PlayerMovement : MonoBehaviour, IMovable, IBoostable {
     {
         get { return speed / maxSpeed; }
     }
-    
+    public int Round
+    {
+        get { return trackPos.Round; }
+    }
+    public float Progress {
+        get { return trackPos.RoundProgress; }
+    }
     public float acceleration, breaking, maxSpeed, rotationAcceleration, rotationMaxSpeed, startRotation;
     public ParticleSystem PowerupParticleSystem;
     private TrackPosition trackPos;
@@ -41,6 +47,7 @@ public class PlayerMovement : MonoBehaviour, IMovable, IBoostable {
         maxSpeed = 0.85f;
         rotationAcceleration = 8f;
         rotationMaxSpeed = 1.8f;
+        
     }
 
     void Start()
@@ -111,7 +118,6 @@ public class PlayerMovement : MonoBehaviour, IMovable, IBoostable {
     {
         if (GameManager.Instance.IsPaused)
         {
-            
             transform.position = trackPos.Position;
             transform.rotation = Quaternion.LookRotation(trackPos.Forward, trackPos.Up);
             return;
@@ -125,10 +131,6 @@ public class PlayerMovement : MonoBehaviour, IMovable, IBoostable {
         isAccelerating = isBreaking = isRotatingLeft = isRotatingRight = false;
         transform.position = trackPos.Position;
         transform.rotation = Quaternion.LookRotation(trackPos.Forward, trackPos.Up);
-
-        // change visuals based on speed
-        //var scale = Speed > maxSpeed ? (Speed - maxSpeed) + 1.5f : 1f;
-        //transform.localScale = new Vector3(1f, 1f, 1f * scale);
     }
     
 	public void Accelerate()

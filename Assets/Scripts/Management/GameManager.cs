@@ -114,7 +114,5 @@ public class GameManager : MonoBehaviour {
         }
         else
             GameObject.Find("Canvas").GetComponent<UIScoreManager>().SetFirst(false, time);
-
-        finished = true;
     }
 }

@@ -5,6 +5,7 @@ using System;
 
 public class UIManager : MonoBehaviour
 {
+    public Text roundLabel;
     public Text positionLabel;
     public Text finalTimeLabel;
     public Text timeLabel;
@@ -12,7 +13,9 @@ public class UIManager : MonoBehaviour
 
     void Start()
     {
-        timeLabel.text = CreateTimeString(0);
+        UpdateHUDTime(0);
+        SetPositionLabel(2);
+        SetRoundLabel(1);
     }
 
     public void StartCountdown(int seconds)
@@ -52,7 +55,7 @@ public class UIManager : MonoBehaviour
         return string.Format("Time: {0:0}:{1:00}", seconds / 60, seconds % 60);
     }
 
-    private void SetPositionLabel(int position)
+    public void SetPositionLabel(int position)
     {
         switch(position)
         {
@@ -69,5 +72,10 @@ public class UIManager : MonoBehaviour
                 positionLabel.text = position + "th";
                 break;
         }
+    }
+
+    public void SetRoundLabel(int round)
+    {
+        roundLabel.text = round + "/" + GameManager.Instance.settings.labs;
     }
 }
