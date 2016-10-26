@@ -18,7 +18,9 @@ public interface IBoostable
 
 public class PlayerMovement : MonoBehaviour, IMovable, IBoostable {
 
-    public float Speed { get; private set; }
+    public float Speed {
+        get { return speed; }
+    }
     public float RelativeSpeed
     {
         get { return speed / maxSpeed; }

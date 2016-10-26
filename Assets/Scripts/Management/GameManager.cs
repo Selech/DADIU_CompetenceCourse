@@ -26,9 +26,8 @@ public class GameManager : MonoBehaviour {
     }
 
     public GameSettings settings = new GameSettings();
-    public Track track;
     public Player player;
-    public List<AgentBased_AI> agents;
+    public List<AI> agents;
 
     void Awake () {
         if (_instance != null)
@@ -74,12 +73,6 @@ public class GameManager : MonoBehaviour {
     {
         if (scene.name == "Level1")
         {
-            track = GameObject.Find("Track").GetComponent<Track>();
-            //player = GameObject.Find("Player").GetComponent<Player>();
-            //player.SetTrackPosition(track.CreateTrackPosition());
-            agents = GameObject.FindGameObjectsWithTag("AI").Select(x => x.GetComponent<AgentBased_AI>()).ToList();
-            agents.ForEach(x => x.SetTrackPosition(track.CreateTrackPosition()));
-
             UIManager ui = GameObject.Find("Canvas").GetComponent<UIManager>();
             ui.StartCountdown(3);
             Invoke("StartGame", 3);
