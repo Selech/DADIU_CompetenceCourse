@@ -10,6 +10,7 @@ public class UIManager : MonoBehaviour
     public Text finalTimeLabel;
     public Text timeLabel;
     public Text countdown;
+    public GameObject HUD;
 
     void Start()
     {
@@ -35,7 +36,7 @@ public class UIManager : MonoBehaviour
         GameManager.Instance.IsPaused = false;
         countdown.text = "Go!";
         yield return new WaitForSecondsRealtime(1);
-
+        HUD.gameObject.SetActive(true);
         countdown.gameObject.SetActive(false);
         yield break;
     }

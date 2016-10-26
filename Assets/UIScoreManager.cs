@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
+using UnityEngine.SceneManagement;
 
 public class UIScoreManager : MonoBehaviour
 {
@@ -17,5 +18,10 @@ public class UIScoreManager : MonoBehaviour
     {
         second.text = player ? time + " - Player" : time + " - AI";
         scoreScreen.SetActive(true);
+    }
+
+    public void GoBack()
+    {
+        SceneManager.LoadScene("MainMenu");
     }
 }

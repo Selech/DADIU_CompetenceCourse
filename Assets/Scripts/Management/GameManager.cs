@@ -3,6 +3,7 @@ using System.Collections;
 using UnityEngine.SceneManagement;
 using System.Linq;
 using System.Collections.Generic;
+using UnityEngine.UI;
 
 public class GameSettings
 {
@@ -29,7 +30,8 @@ public class GameManager : MonoBehaviour {
     public Player player;
     public List<AI> agents;
     public bool IsPaused = true;
-    private bool finished = false;
+    private bool aiFinish = false;
+    private bool playerFinish = false;
 
     void Awake () {
         if (_instance != null)
@@ -69,6 +71,8 @@ public class GameManager : MonoBehaviour {
                 };
                 break;
         }
+
+        IsPaused = true;
     }
 
     public void OnSceneLoaded(Scene scene, LoadSceneMode mode)
@@ -89,30 +93,43 @@ public class GameManager : MonoBehaviour {
 
     public void AIFinished()
     {
-        TimeTracker timeTracker = GameObject.Find("Canvas").GetComponent<TimeTracker>();
-        string time = timeTracker.GetTime();
-
-        if (finished)
+        if (!aiFinish)
         {
-            GameObject.Find("Canvas").GetComponent<UIScoreManager>().SetSecond(false, time);
-            timeTracker.StopTracking();
-        }
-        else
-            GameObject.Find("Canvas").GetComponent<UIScoreManager>().SetFirst(false, time);
+            TimeTracker timeTracker = GameObject.Find("Canvas").GetComponent<TimeTracker>();
+            string time = timeTracker.GetTime();
 
-        finished = true;
+            if (playerFinish)
+            {
+                GameObject.Find("Canvas").GetComponent<UIScoreManager>().SetSecond(false, time);
+                timeTracker.StopTracking();
+                GameObject.Find("WaitingForAI").SetActive(false);
+            }
+            else
+            {
+                GameObject.Find("Canvas").GetComponent<UIScoreManager>().SetFirst(false, time);
+            }
+
+            aiFinish = true;
+        }
     }
 
     public void PlayerFinished()
     {
-        TimeTracker timeTracker = GameObject.Find("Canvas").GetComponent<TimeTracker>();
-        string time = timeTracker.GetTime();
+        if (!playerFinish) { 
+            TimeTracker timeTracker = GameObject.Find("Canvas").GetComponent<TimeTracker>();
+            string time = timeTracker.GetTime();
 
-        if (finished) { 
-            GameObject.Find("Canvas").GetComponent<UIScoreManager>().SetSecond(false, time);
-            timeTracker.StopTracking();
+            if (aiFinish) { 
+                GameObject.Find("Canvas").GetComponent<UIScoreManager>().SetSecond(true, time);
+                timeTracker.StopTracking();
+            }
+            else { 
+                GameObject.Find("Canvas").GetComponent<UIScoreManager>().SetFirst(true, time);
+                GameObject.Find("WaitingForAI").GetComponent<Text>().text = "Waiting for AI to finish..";
+            }
+
+            playerFinish = true;
+            GameObject.Find("HUD").SetActive(false);
         }
-        else
-            GameObject.Find("Canvas").GetComponent<UIScoreManager>().SetFirst(false, time);
     }
 }
