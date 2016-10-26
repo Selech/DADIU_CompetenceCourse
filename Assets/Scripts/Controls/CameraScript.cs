@@ -30,8 +30,7 @@ public class CameraScript : MonoBehaviour {
 
 	    var shakeAmount = (target.GetComponent<PlayerMovement>().Speed - 0.6f) > 0 ? (target.GetComponent<PlayerMovement>().Speed - 0.6f) : 0f;
 
-	    ParticleSystem.startSize = 0.02f*shakeAmount;
-	    // ParticleSystem.startSpeed = 10f*shakeAmount;
+	    ParticleSystem.startSize = 0.05f*shakeAmount;
 
         var shakeVector = shakeAmount * new Vector3(Random.Range(0.05f, 0.15f), Random.Range(0.05f, 0.15f));
 	    transform.position += shakeVector;

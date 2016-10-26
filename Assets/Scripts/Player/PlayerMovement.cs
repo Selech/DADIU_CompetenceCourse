@@ -26,7 +26,7 @@ public class PlayerMovement : MonoBehaviour, IMovable, IBoostable {
         get { return speed / maxSpeed; }
     }
     
-    public float acceleration, breaking, maxSpeed, rotationAcceleration, rotationMaxSpeed;
+    public float acceleration, breaking, maxSpeed, rotationAcceleration, rotationMaxSpeed, startRotation;
     private TrackPosition trackPos;
     private float speed, rotationSpeed;
     private float speedBoost, rotationBoost;
@@ -52,6 +52,7 @@ public class PlayerMovement : MonoBehaviour, IMovable, IBoostable {
         trackPos = Track.Instance.CreateTrackPosition();
         speedBoost = 1f;
         rotationBoost = 1f;
+        trackPos.Rotate(startRotation);
     }
 
     void OnCollisionEnter(Collision coll)
@@ -107,6 +108,14 @@ public class PlayerMovement : MonoBehaviour, IMovable, IBoostable {
 
     void Update()
     {
+        if (GameManager.Instance.IsPaused)
+        {
+            
+            transform.position = trackPos.Position;
+            transform.rotation = Quaternion.LookRotation(trackPos.Forward, trackPos.Up);
+            return;
+        }
+
         if (!isStuck)
             UpdateSpeed();
 

@@ -2,8 +2,6 @@
 using System.Collections;
 
 public class Player : MonoBehaviour {
-
-    
     public Material mat;
     public Light internalLight;
     private AudioManager audio;
@@ -35,6 +33,7 @@ public class Player : MonoBehaviour {
         {
             case "Obstacle":
                 audio.PlayCollisionSound();
+                Camera.main.GetComponent<HitCameraEffect>().TriggerGrayScale();
                 break;
             case "PowerupSpeed":
                 audio.PlayPowerupSound();
