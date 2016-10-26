@@ -18,6 +18,7 @@ public class Player : MonoBehaviour {
 	void Update ()
 	{
         float speed = movement.RelativeSpeed;
+	    audio.SetRollPitch(speed);
         // set glow based on speed
         mat.SetFloat("_GlowAmount", speed);
 	    internalLight.intensity = speed;
