@@ -29,6 +29,7 @@ public class GameManager : MonoBehaviour {
     public Player player;
     public List<AI> agents;
     public bool IsPaused = true;
+    private bool finished = false;
 
     void Awake () {
         if (_instance != null)
@@ -84,5 +85,36 @@ public class GameManager : MonoBehaviour {
     {
         TimeTracker timeTracker = GameObject.Find("Canvas").GetComponent<TimeTracker>();
         timeTracker.StartTracking();
+    }
+
+    public void AIFinished()
+    {
+        TimeTracker timeTracker = GameObject.Find("Canvas").GetComponent<TimeTracker>();
+        string time = timeTracker.GetTime();
+
+        if (finished)
+        {
+            GameObject.Find("Canvas").GetComponent<UIScoreManager>().SetSecond(false, time);
+            timeTracker.StopTracking();
+        }
+        else
+            GameObject.Find("Canvas").GetComponent<UIScoreManager>().SetFirst(false, time);
+
+        finished = true;
+    }
+
+    public void PlayerFinished()
+    {
+        TimeTracker timeTracker = GameObject.Find("Canvas").GetComponent<TimeTracker>();
+        string time = timeTracker.GetTime();
+
+        if (finished) { 
+            GameObject.Find("Canvas").GetComponent<UIScoreManager>().SetSecond(false, time);
+            timeTracker.StopTracking();
+        }
+        else
+            GameObject.Find("Canvas").GetComponent<UIScoreManager>().SetFirst(false, time);
+
+        finished = true;
     }
 }

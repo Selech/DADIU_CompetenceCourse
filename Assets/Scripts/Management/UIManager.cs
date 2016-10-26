@@ -33,7 +33,6 @@ public class UIManager : MonoBehaviour {
     
     public void UpdateHUDTime(int seconds)
     {
-
         timeLabel.text = string.Format("Time: {0:00}:{1:00}", seconds / 60, seconds % 60);
     }
 

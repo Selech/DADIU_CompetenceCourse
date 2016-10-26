@@ -30,4 +30,9 @@ public class TimeTracker : MonoBehaviour {
     {
         ui.UpdateHUDTime((int)(DateTime.Now - startTime).TotalSeconds);
     }
+
+    public string GetTime()
+    {
+        return (DateTime.Now - startTime).TotalSeconds + "";
+    }
 }
