@@ -78,17 +78,14 @@ public class SensorScript : MonoBehaviour {
             if (!leftFineHit.collider && rightFineHit.collider)
             {
                 parentScript.currentTurnState = AI.TurnState.Left;
-                print("left march!");
             }
             else if (leftFineHit.collider && !rightFineHit.collider)
             {
                 parentScript.currentTurnState = AI.TurnState.Right;
-                print("right march!");
             }
             else
             {
-                parentScript.currentMoveState = AI.MoveState.Forward;
-                print("Forward march!");
+                parentScript.currentTurnState = AI.TurnState.Straight;
             }
         }
         // Only hit in the middle
@@ -97,12 +94,10 @@ public class SensorScript : MonoBehaviour {
             if (!leftFineHit.collider && rightFineHit.collider)
             {
                 parentScript.currentTurnState = AI.TurnState.Left;
-                print("left march!");
             }
             else 
             {
                 parentScript.currentTurnState = AI.TurnState.Right;
-                print("right march!");
             }
         }
         // Go turn left
@@ -134,7 +129,7 @@ public class SensorScript : MonoBehaviour {
         }
         else
         {
-            parentScript.currentMoveState = centerHit.distance < 30 ? AI.MoveState.Breaking : AI.MoveState.Forward;
+            parentScript.currentMoveState = centerHit.distance < 20 ? AI.MoveState.Breaking : AI.MoveState.Forward;
         }
         #endregion
     }
