@@ -26,7 +26,7 @@ public class Player : MonoBehaviour {
 
         // rescale model based on speed
         var scale = speed > 1f ? speed - 1f + 1.5f : 1f;
-        transform.localScale = new Vector3(1f, 1f, scale);
+        ball.transform.localScale = new Vector3(1f, 1f, scale);
     }
     
     void OnCollisionEnter(Collision coll)
