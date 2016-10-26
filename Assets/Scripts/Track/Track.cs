@@ -5,16 +5,23 @@ using System.Collections.Generic;
 
 [RequireComponent(typeof(BezierCurve))]
 public class Track : MonoBehaviour {
+    public static Track Instance { get; private set; } 
+
     public const float radius = 0.65f;
     private const int verticesPerPoint = 10;
     private Vector3[] points;
     private float trackLength;
 
-
-
-
 	// Use this for initialization
 	void Awake () {
+        if (Instance == null)
+            Instance = this;
+        else
+        {
+            Destroy(gameObject);
+            return;
+        }
+
         // transform the curve points to world space
         points = GetComponent<BezierCurve>().GetPoints();
         for (int i = 0; i < points.Length; i++)

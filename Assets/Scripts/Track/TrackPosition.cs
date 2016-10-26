@@ -48,7 +48,6 @@ public class TrackPosition
 
     public TrackPosition(Vector3[] points, float totalDistance)
     {
-        index = 500;
         this.points = points;
         dTrackTotal = totalDistance;
     }

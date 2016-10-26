@@ -28,7 +28,7 @@ public class CameraScript : MonoBehaviour {
 		transform.position = target.position - target.forward * offset.z - target.up * offset.y;
         transform.rotation = Quaternion.Slerp(transform.rotation, target.rotation, Time.deltaTime * slerpAmount);
 
-	    var shakeAmount = (target.GetComponent<Player>().velocity - 0.6f) > 0 ? (target.GetComponent<Player>().velocity - 0.6f) : 0f;
+	    var shakeAmount = (target.GetComponent<PlayerMovement>().Speed - 0.6f) > 0 ? (target.GetComponent<PlayerMovement>().Speed - 0.6f) : 0f;
 
 	    ParticleSystem.startSize = 0.02f*shakeAmount;
 	    // ParticleSystem.startSpeed = 10f*shakeAmount;

@@ -49,14 +49,14 @@ public class GameManager : MonoBehaviour {
             case "Hard":
                 settings = new GameSettings()
                 {
-                    speedFactor = 1.2f,
+                    speedFactor = 1.4f,
                     labs = 3
                 };
                 break;
             case "Korean":
                 settings = new GameSettings()
                 {
-                    speedFactor = 1.7f,
+                    speedFactor = 2f,
                     labs = 4
                 };
                 break;
@@ -75,10 +75,19 @@ public class GameManager : MonoBehaviour {
         if (scene.name == "Level1")
         {
             track = GameObject.Find("Track").GetComponent<Track>();
-            player = GameObject.Find("Player").GetComponent<Player>();
-            player.SetTrackPosition(track.CreateTrackPosition());
+            //player = GameObject.Find("Player").GetComponent<Player>();
+            //player.SetTrackPosition(track.CreateTrackPosition());
             agents = GameObject.FindGameObjectsWithTag("AI").Select(x => x.GetComponent<AgentBased_AI>()).ToList();
             agents.ForEach(x => x.SetTrackPosition(track.CreateTrackPosition()));
+
+            UIManager ui = GameObject.Find("Canvas").GetComponent<UIManager>();
+            ui.StartCountdown(3);
+            Invoke("StartGame", 3);
         }
+    }
+
+    private void StartGame()
+    {
+
     }
 }
