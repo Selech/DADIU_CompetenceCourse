@@ -8,6 +8,7 @@ public class Player : MonoBehaviour {
     public Light internalLight;
     private AudioManager audio;
     private PlayerMovement movement;
+    public GameObject ball;
 
     void Start()
     {

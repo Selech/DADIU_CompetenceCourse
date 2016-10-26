@@ -144,13 +144,13 @@ public class PlayerMovement : MonoBehaviour, IMovable, IBoostable {
     public void BoostSpeed()
     {
         speedBoost = 2f;
-        Invoke("RemoveBoosts", 5f);
+        Invoke("RemoveBoosts", 8f);
     }
 
     public void BoostRotation()
     {
         rotationBoost = 2f;
-        Invoke("RemoveBoosts", 5f);
+        Invoke("RemoveBoosts", 8f);
     }
 
     private void RemoveBoosts()

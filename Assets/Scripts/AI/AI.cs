@@ -7,7 +7,7 @@ public class AI : MonoBehaviour
     // States
     public enum TurnState
     {
-        Left, Right 
+        Left, Right, Straight
     }
     public enum MoveState
     {
@@ -26,6 +26,10 @@ public class AI : MonoBehaviour
     private bool lastLeftHit;
     private bool beenStuck;
 
+    public Material mat;
+    public Light internalLight;
+    public GameObject ball;
+
     void Start()
     {
         movement = GetComponent<PlayerMovement>();
@@ -35,6 +39,15 @@ public class AI : MonoBehaviour
     {
         UpdateSensors();
         React();
+
+        float speed = movement.RelativeSpeed;
+        // set glow based on speed
+        mat.SetFloat("_GlowAmount", speed);
+        internalLight.intensity = speed;
+
+        // rescale model based on speed
+        var scale = speed > 1f ? speed - 1f + 1.5f : 1f;
+        ball.transform.localScale = new Vector3(1f, 1f, scale);
     }
 
     void UpdateSensors()
