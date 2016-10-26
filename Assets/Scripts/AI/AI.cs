@@ -50,6 +50,21 @@ public class AI : MonoBehaviour
         ball.transform.localScale = new Vector3(1f, 1f, scale);
     }
 
+    void OnCollisionEnter(Collision coll)
+    {
+        switch (coll.collider.tag)
+        {
+            case "Obstacle":
+                break;
+            case "PowerupSpeed":
+                movement.BoostSpeed();
+                break;
+            case "PowerupRotation":
+                movement.BoostRotation();
+                break;
+        }
+    }
+
     void UpdateSensors()
     {
         if (movement.Speed == 0)

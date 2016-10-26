@@ -2,8 +2,6 @@
 using System.Collections;
 
 public class Player : MonoBehaviour {
-
-    
     public Material mat;
     public Light internalLight;
     private AudioManager audio;
@@ -26,7 +24,7 @@ public class Player : MonoBehaviour {
 
         // rescale model based on speed
         var scale = speed > 1f ? speed - 1f + 1.5f : 1f;
-        transform.localScale = new Vector3(1f, 1f, scale);
+        ball.transform.localScale = new Vector3(1f, 1f, scale);
     }
     
     void OnCollisionEnter(Collision coll)
@@ -35,6 +33,7 @@ public class Player : MonoBehaviour {
         {
             case "Obstacle":
                 audio.PlayCollisionSound();
+                Camera.main.GetComponent<HitCameraEffect>().TriggerGrayScale();
                 break;
             case "PowerupSpeed":
                 audio.PlayPowerupSound();

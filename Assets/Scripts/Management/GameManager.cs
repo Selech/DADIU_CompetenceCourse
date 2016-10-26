@@ -26,6 +26,9 @@ public class GameManager : MonoBehaviour {
     }
 
     public GameSettings settings = new GameSettings();
+    public Player player;
+    public List<AI> agents;
+    public bool IsPaused = true;
 
     void Awake () {
         if (_instance != null)

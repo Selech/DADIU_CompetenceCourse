@@ -23,6 +23,7 @@ public class UIManager : MonoBehaviour {
             countdown.text = i.ToString();
             yield return new WaitForSecondsRealtime(1);
         }
+        GameManager.Instance.IsPaused = false;
         countdown.text = "Go!";
         yield return new WaitForSecondsRealtime(1);
 
