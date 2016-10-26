@@ -82,6 +82,7 @@ public class GameManager : MonoBehaviour {
 
     private void StartGame()
     {
-
+        TimeTracker timeTracker = GameObject.Find("Canvas").GetComponent<TimeTracker>();
+        timeTracker.StartTracking();
     }
 }
