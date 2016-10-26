@@ -3,7 +3,8 @@ using System.Collections;
 
 public class PlayerManager : MonoBehaviour {
 
-    public GameManager manager;
+    private GameManager manager;
+    public UIManager ui;
     public PlayerMovement player;
     public PlayerMovement ai;
     private int position;
@@ -32,10 +33,15 @@ public class PlayerManager : MonoBehaviour {
         {
             position = player.Progress > ai.Progress ? 1 : 2;
         }
+        ui.SetPositionLabel(position);
 
         if (round > labs)
         {
             manager.PlayerFinished();
+        }
+        else
+        {
+            ui.SetRoundLabel(round);
         }
         if (ai.Round > labs)
         {
