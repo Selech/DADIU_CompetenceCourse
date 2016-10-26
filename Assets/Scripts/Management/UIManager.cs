@@ -3,11 +3,17 @@ using System.Collections;
 using UnityEngine.UI;
 using System;
 
-public class UIManager : MonoBehaviour {
+public class UIManager : MonoBehaviour
+{
 
-    
+    public Text finalTimeLabel;
     public Text timeLabel;
     public Text countdown;
+
+    void Start()
+    {
+        timeLabel.text = CreateTimeString(0);
+    }
 
     public void StartCountdown(int seconds)
     {
@@ -30,21 +36,19 @@ public class UIManager : MonoBehaviour {
         countdown.gameObject.SetActive(false);
         yield break;
     }
-    
+
     public void UpdateHUDTime(int seconds)
     {
-
-        timeLabel.text = string.Format("Time: {0:00}:{1:00}", seconds / 60, seconds % 60);
+        timeLabel.text = CreateTimeString(seconds);
     }
 
-    // Use this for initialization
-    void Start () {
-	
-	}
-	
-	// Update is called once per frame
-	void Update () {
-        
-	    
-	}
+    public void SetFinalTime(int seconds)
+    {
+        finalTimeLabel.text = CreateTimeString(seconds);
+    }
+
+    private string CreateTimeString(int seconds)
+    {
+        return string.Format("Time: {0:0}:{1:00}", seconds / 60, seconds % 60);
+    }
 }
