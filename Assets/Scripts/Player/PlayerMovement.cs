@@ -61,7 +61,6 @@ public class PlayerMovement : MonoBehaviour, IMovable, IBoostable {
         speedBoost = 1f;
         rotationBoost = 1f;
         trackPos.Rotate(startRotation);
-        round = 1;
     }
 
     void OnCollisionEnter(Collision coll)

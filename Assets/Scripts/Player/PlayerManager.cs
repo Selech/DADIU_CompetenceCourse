@@ -8,10 +8,12 @@ public class PlayerManager : MonoBehaviour {
     public PlayerMovement ai;
     private int position;
     private int round;
+    private int labs;
 
     void Start()
     {
         manager = GameManager.Instance;
+        labs = manager.settings.labs;
     }
 	
 	// Update is called once per frame
@@ -31,9 +33,13 @@ public class PlayerManager : MonoBehaviour {
             position = player.Progress > ai.Progress ? 1 : 2;
         }
 
-        if (round > manager.settings.labs)
+        if (round > labs)
         {
-            manager.GameOver();
+            manager.PlayerFinished();
+        }
+        if (ai.Round > labs)
+        {
+            manager.AIFinished();
         }
 	}
 }

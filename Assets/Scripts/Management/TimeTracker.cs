@@ -27,4 +27,9 @@ public class TimeTracker : MonoBehaviour {
     {
         ui.UpdateHUDTime(secondsPassed++);
     }
+
+    public string GetTime()
+    {
+        return secondsPassed + "";
+    }
 }
