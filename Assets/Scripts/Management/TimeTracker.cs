@@ -30,6 +30,6 @@ public class TimeTracker : MonoBehaviour {
 
     public string GetTime()
     {
-        return (DateTime.Now - startTime).TotalSeconds + "";
+        return secondsPassed + "";
     }
 }
