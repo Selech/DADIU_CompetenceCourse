@@ -26,8 +26,6 @@ public class GameManager : MonoBehaviour {
     }
 
     public GameSettings settings = new GameSettings();
-    public Player player;
-    public List<AI> agents;
 
     void Awake () {
         if (_instance != null)
@@ -81,6 +79,7 @@ public class GameManager : MonoBehaviour {
 
     private void StartGame()
     {
-
+        TimeTracker timeTracker = GameObject.Find("Canvas").GetComponent<TimeTracker>();
+        timeTracker.StartTracking();
     }
 }
