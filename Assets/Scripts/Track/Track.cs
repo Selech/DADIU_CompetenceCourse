@@ -14,8 +14,11 @@ public class Track : MonoBehaviour {
 
 	// Use this for initialization
 	void Awake () {
+        
         if (Instance == null)
-            Instance = this;
+        {
+            Instance = this;}
+            
         else
         {
             Destroy(gameObject);

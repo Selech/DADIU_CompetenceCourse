@@ -5,7 +5,7 @@ using System;
 
 public class UIManager : MonoBehaviour
 {
-
+    public Text positionLabel;
     public Text finalTimeLabel;
     public Text timeLabel;
     public Text countdown;
@@ -50,5 +50,24 @@ public class UIManager : MonoBehaviour
     private string CreateTimeString(int seconds)
     {
         return string.Format("Time: {0:0}:{1:00}", seconds / 60, seconds % 60);
+    }
+
+    private void SetPositionLabel(int position)
+    {
+        switch(position)
+        {
+            case 1:
+                positionLabel.text = "1st";
+                break;
+            case 2:
+                positionLabel.text = "2nd";
+                break;
+            case 3:
+                positionLabel.text = "3rd";
+                break;
+            default:
+                positionLabel.text = position + "th";
+                break;
+        }
     }
 }
