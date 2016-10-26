@@ -30,6 +30,6 @@ public class TimeTracker : MonoBehaviour {
 
     public string GetTime()
     {
-        return secondsPassed + "";
+        return string.Format("{0:0}:{1:00}", secondsPassed / 60, secondsPassed % 60);
     }
 }
