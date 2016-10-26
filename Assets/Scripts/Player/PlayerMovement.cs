@@ -27,6 +27,7 @@ public class PlayerMovement : MonoBehaviour, IMovable, IBoostable {
     }
     
     public float acceleration, breaking, maxSpeed, rotationAcceleration, rotationMaxSpeed, startRotation;
+    public ParticleSystem PowerupParticleSystem;
     private TrackPosition trackPos;
     private float speed, rotationSpeed;
     private float speedBoost, rotationBoost;
@@ -153,12 +154,14 @@ public class PlayerMovement : MonoBehaviour, IMovable, IBoostable {
     public void BoostSpeed()
     {
         speedBoost = 2f;
+        PowerupParticleSystem.Play();
         Invoke("RemoveBoosts", 8f);
     }
 
     public void BoostRotation()
     {
         rotationBoost = 2f;
+        PowerupParticleSystem.Play();
         Invoke("RemoveBoosts", 8f);
     }
 
@@ -166,5 +169,6 @@ public class PlayerMovement : MonoBehaviour, IMovable, IBoostable {
     {
         speedBoost = 1f;
         rotationBoost = 1f;
+        PowerupParticleSystem.Stop();
     }
 }

@@ -18,8 +18,7 @@ public class AudioManager : MonoBehaviour {
 
     void Update()
     {
-        roll.pitch = 0.8f + 0.3f;
-        roll.volume = 0.8f + 0.1f;
+        
     }
 
     public void ToggleRollSound(bool play)
@@ -38,5 +37,11 @@ public class AudioManager : MonoBehaviour {
     public void PlayPowerupSound()
     {
         powerup.Play();
+    }
+
+    public void SetRollPitch(float speed)
+    {
+        roll.pitch = 0.8f * speed + 0.3f;
+        roll.volume = 0.4f * speed + 0.1f;
     }
 }
